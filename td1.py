@@ -11,7 +11,7 @@ from soccersimulator import PygletObserver,ConsoleListener,LogListener
 from soccersimulator import PLAYER_RADIUS, BALL_RADIUS
 v=Vector2D(10, 5)
 u=Vector2D(6, 3)
-
+ 
 v.norm
 
 acceleration=Vector2D(10, 7)
