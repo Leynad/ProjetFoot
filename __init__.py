@@ -1,3 +1,3 @@
 
-from main import teams
+from monequipe import teams, name
 

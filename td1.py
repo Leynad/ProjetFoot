@@ -187,4 +187,23 @@ class TestStrat(SoccerStrategy):
         return TestStrat()
     def create_strategy(self):
         return TestStrat()
+        
+###
+# Defenseur qui tir la balle sur un coté
+###        
+        
+class TirAngle(SoccerStrategy):
+    def __init__(self):
+        pass
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        shoot = Vector2D.create_polar(player.angle + random.random()*2-1, 1)
+        return SoccerAction(Vector2D(0,0), shoot)
+    def copy(self):
+        return TirAngle()
+    def create_strategy(self):
+        return TirAngle()
 
