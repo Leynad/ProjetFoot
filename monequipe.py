@@ -17,10 +17,10 @@ team4=SoccerTeam("team4")
 team1.add_player(SoccerPlayer("t1j1",JoueurFonceur()))
 team2.add_player(SoccerPlayer("t2j1",JoueurFonceur()))
 team1.add_player(SoccerPlayer("t1j2",JoueurFonceur()))
-team2.add_player(SoccerPlayer("t2j2",JoueurFonceur()))
-team3.add_player(SoocerPlayer("t3j1",JoueurFonceur()))
+team2.add_player(SccerPlayer("t2j2",JoueurFonceur()))
+team3.add_player(SocerPlayer("t3j1",JoueurFonceur()))
 team3.add_player(SoccerPlayer("t3j2",JoueurFonceur()))
-team4.add_player(SoocerPlayer("t4j1",JoueurFonceur()))
+team4.add_player(SocerPlayer("t4j1",JoueurFonceur()))
 team4.add_player(SoccerPlayer("t4j2",JoueurFonceur()))
 
 
