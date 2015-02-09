@@ -9,6 +9,7 @@ from soccersimulator import Vector2D, SoccerAction, SoccerStrategy, pyglet
 from soccersimulator import SoccerBattle, SoccerPlayer, SoccerTeam 
 from soccersimulator import PygletObserver,ConsoleListener,LogListener
 from soccersimulator import PLAYER_RADIUS, BALL_RADIUS
+import need
 
 #######################################################
 #RANDOM
@@ -37,7 +38,7 @@ class RandomStrategy(SoccerStrategy):
       
 class JoueurFonceur(SoccerStrategy):
     def __init__(self):
-        self.name="Random"
+        self.name="Fonceur"
     def start_battle(self,state):
         pass
     def finish_battle(self,won):
@@ -46,17 +47,13 @@ class JoueurFonceur(SoccerStrategy):
         acceleration = state.ball.position - player.position
         shoot = Vector2D(0,0)
         if (PLAYER_RADIUS+BALL_RADIUS)>=(state.ball.position.distance(player.position)):
-            shoot= (state.get_goal_center(self.goal_adverse(teamid))-player.position)
+            shoot= (state.get_goal_center(need.teamAdverse(teamid))-player.position)
         return SoccerAction(acceleration,shoot)
     def copy(self):
         return JoueurFonceur()
     def create_strategy(self):
         return JoueurFonceur()
-    def goal_adverse(self, teamid):
-        if teamid == 1:
-            return 2
-        else:
-            return 1
+
       
 ##################################################
 #JoueurFonceur qui tir (aucune utilité pour le moment)
@@ -75,10 +72,8 @@ class JoueurFonceurTir(SoccerStrategy):
         acceleration = (posBall - posPlayer)
         shoot = Vector2D(0,0)
         if((posBall - posPlayer).norm <= PLAYER_RADIUS + BALL_RADIUS):
-            teamAdverse = 2
-            if teamid == 2:
-                teamAdverse = 1
-            shoot = (state.get_goal_center(teamAdverse) - posBall).product(100000)
+            
+            shoot = (state.get_goal_center(need.teamAdverse(teamid)) - posBall).product(100000)
                 
         return SoccerAction(acceleration, shoot)
     def copy(self):
@@ -131,28 +126,24 @@ class DefStrategy(SoccerStrategy):
         d = state.ball.position - player.position
         if d.norm > 25:
             acceleration = state.ball.position + state.get_goal_center(teamid) - player.position - player.position
+            
         else:
             acceleration = state.ball.position - player.position
 
         shoot = Vector2D(0,0)
         if (PLAYER_RADIUS+BALL_RADIUS)>=(state.ball.position.distance(player.position)):
-            shoot= (state.get_goal_center(self.goal_adverse(teamid))-player.position)
+            shoot= (state.get_goal_center(need.teamAdverse(teamid))-player.position)
         return SoccerAction(acceleration, shoot)
     def copy(self):
         return DefStrategy()
     def create_strategy(self):
-        return DefStrategy()
-    def goal_adverse(self, teamid):
-        if teamid == 1:
-            return 2
-        else:
-            return 1
+        return DefStrategy()        
         
 ########################################
 #compose strat
 ###################################
 
-class ComposeStrategy(soccerStrategy):
+class ComposeStrategy(SoccerStrategy):
     def __init__(self, strategy1, strategy2):
         self.name="Random"
         self.strategy1 = strategy1
@@ -167,8 +158,33 @@ class ComposeStrategy(soccerStrategy):
         return ComposeStrategy(self.strategy1, slef.strategy2)
     def create_strategy(self):
         return ComposeStrategy()
-    def goal_adverse(self, teamid):
-        if teamid == 1:
-            return 2
-        else:
-            return 1
+        
+        
+        
+        
+###
+#Test
+###
+
+class TestStrat(SoccerStrategy):
+    def __init__(self):
+        self.name="Fonceur"
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        pos = state.ball.position-player.position
+        shoot = Vector2D(0,0)
+        if (PLAYER_RADIUS+BALL_RADIUS)>=(state.ball.position.distance(player.position)):
+            teamadverse=2
+            if teamid==2:
+                teamadverse=1    
+            shoot= (state.get_goal_center(need.teamAdverse(teamid))-player.position)
+            
+        return SoccerAction(pos,shoot)
+    def copy(self):
+        return TestStrat()
+    def create_strategy(self):
+        return TestStrat()
+
