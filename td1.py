@@ -120,14 +120,28 @@ class AllerVersPelota(SoccerStrategy):
         return SoccerAction(pos,shoot)
     def copy(self):
         return AllerVersPelota()
+    def create_strategy(self):
+        return AllerVersPelota()
+        
+
         
 ######################################
 #Tir
 ######################################
 
-"""class Tir(SoccerStrategy):
-    def __init__(self, destination):
-"""
+class Tir(SoccerStrategy):
+    def __init__(self):
+        pass
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        shoot = state.get_goal_center(need.teamAdverse(teamid))
+        return SoccerAction(Vector2D(0,0), shoot)
+    def create_strategy(self):
+        return Tir()
+        
 
 ################################################
 #Stratégie defensive
@@ -240,8 +254,10 @@ class Goal(SoccerStrategy):
             a.x=a.x/2
             a.y=a.y/2
             a=a-player.position
-            shoot = create_polar(6,(teamid-1.5)*20)
-            return SoccerAction(a,shoot)#Soit il tir a 10 soit a -10 en fonction de son équipe  
+            shoot = Vector2D.create_polar(6,(teamid-1.5)*20)
+            return SoccerAction(a,shoot) #Soit il tir a 10 soit a -10 en fonction de son équipe
+    def copy(self):
+        return Goal()
     def create_strategy(self):
         return Goal()   
         
