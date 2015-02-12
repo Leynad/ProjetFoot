@@ -126,12 +126,12 @@ class AllerVersPelota(SoccerStrategy):
 
         
 ######################################
-#Tir
+#Pour tir
 ######################################
 
-class Tir(SoccerStrategy):
+class Shoot(SoccerStrategy):
     def __init__(self):
-        pass
+        self.name="shoot"
     def start_battle(self,state):
         pass
     def finish_battle(self,won):
@@ -139,8 +139,10 @@ class Tir(SoccerStrategy):
     def compute_strategy(self,state,player,teamid):
         shoot = state.get_goal_center(need.teamAdverse(teamid))
         return SoccerAction(Vector2D(0,0), shoot)
+    def copy(self):
+        return Shoot()
     def create_strategy(self):
-        return Tir()
+        return Shoot()
         
 
 ################################################
