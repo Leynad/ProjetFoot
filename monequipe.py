@@ -27,5 +27,11 @@ team4.add_player(SoccerPlayer("t4j2", GoAndShoot()))
 team4.add_player(SoccerPlayer("t4j3", GoAndShoot()))
 team4.add_player(SoccerPlayer("t4j4", GoAndShoot()))
 
-teams=[team1,team2,team3, team4]
+team5=SoccerTeam("4v4 maggle")
+team5.add_player(SoccerPlayer("t5j1", DefStrat()))
+team5.add_player(SoccerPlayer("t5j2", DefStrat()))
+team5.add_player(SoccerPlayer("t5j3", GoAndShoot()))
+team5.add_player(SoccerPlayer("t5j4", GoAndShoot()))
+
+teams=[team1,team2,team3, team4, team5]
 name="Maccabi"

@@ -175,7 +175,7 @@ class GoAndShoot(SoccerStrategy):
         return GoAndShoot()
 
 ###########################
-#Defstrat en cas de besoin
+#Defstrat en cas de besoin   ---> A BOSSER
 ##########################
 '''
 class DefIntell(SoccerStrategy):
