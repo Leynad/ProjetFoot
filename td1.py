@@ -214,9 +214,9 @@ class DefStrat(SoccerStrategy):
         d = state.ball.position - player.position # diff entre ball et joueur
         if d.norm > 25 :
             if (teamAdverse(teamid)==2):
-                pos = Vector2D((1.3/5)*GAME_WIDTH,state.ball.position.y)-player.position
+                pos = Vector2D((1.2/5)*GAME_WIDTH,state.ball.position.y)-player.position
             else:
-                pos = Vector2D((3.7/5)*GAME_WIDTH,state.ball.position.y)-player.position
+                pos = Vector2D((3.8/5)*GAME_WIDTH,state.ball.position.y)-player.position
         else:
             pos= state.ball.position-player.position
             shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)

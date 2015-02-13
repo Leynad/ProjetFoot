@@ -13,6 +13,9 @@ from td1 import *
 team1=SoccerTeam("Goooo 1v1")
 team1.add_player(SoccerPlayer("t1j1",GoAndShoot()))
 
+team3=SoccerTeam("1v1 def")
+team3.add_player(SoccerPlayer("t3j1",DefStrat()))
+
 team2=SoccerTeam("Dat Fonceur 2v2")
 team2.add_player(SoccerPlayer("t2j1",GoAndShoot()))
 team2.add_player(SoccerPlayer("t2j2",DefStrat()))
@@ -24,5 +27,5 @@ team4.add_player(SoccerPlayer("t4j2", GoAndShoot()))
 team4.add_player(SoccerPlayer("t4j3", GoAndShoot()))
 team4.add_player(SoccerPlayer("t4j4", GoAndShoot()))
 
-teams=[team1,team2, team4]
+teams=[team1,team2,team3, team4]
 name="Maccabi"
