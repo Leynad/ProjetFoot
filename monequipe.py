@@ -10,21 +10,19 @@ from soccersimulator import PygletObserver
 from soccersimulator import SoccerBattle, SoccerTeam, SoccerPlayer
 from td1 import *
 
-team1=SoccerTeam("team1")
-team2=SoccerTeam("team2")
-team3=SoccerTeam("team3")
-team4=SoccerTeam("team4")
+team1=SoccerTeam("Goooo 1v1")
+team1.add_player(SoccerPlayer("t1j1",GoAndShoot()))
 
-team1.add_player(SoccerPlayer("t1j1",JoueurFonceur()))
-team1.add_player(SoccerPlayer("t1j2",Goal()))
-team2.add_player(SoccerPlayer("t2j1",JoueurFonceur()))
-team2.add_player(SoccerPlayer("t2j2",Goal()))
-team3.add_player(SoccerPlayer("t3j1",JoueurFonceur()))
-team3.add_player(SoccerPlayer("t3j2",JoueurFonceur()))
-team4.add_player(SoccerPlayer("t4j1",JoueurFonceur()))
-team4.add_player(SoccerPlayer("t4j2",JoueurFonceur()))
+team2=SoccerTeam("Dat Fonceur 2v2")
+team2.add_player(SoccerPlayer("t2j1",GoAndShoot()))
+team2.add_player(SoccerPlayer("t2j2",DefStrat()))
 
 
+team4=SoccerTeam("Mauro Chupame La Pija 4v4")
+team4.add_player(SoccerPlayer("t4j1", DefStrat()))
+team4.add_player(SoccerPlayer("t4j2", GoAndShoot()))
+team4.add_player(SoccerPlayer("t4j3", GoAndShoot()))
+team4.add_player(SoccerPlayer("t4j4", GoAndShoot()))
 
-teams=[team1,team2, team3, team4]
-name="MaccabiTLV"
+teams=[team1,team2, team4]
+name="Maccabi"
