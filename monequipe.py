@@ -2,7 +2,6 @@
 """
 Created on Mon Feb  9 11:42:52 2015
 
-@author: 3301097
 """
 
 from soccersimulator import pyglet
@@ -10,28 +9,48 @@ from soccersimulator import PygletObserver
 from soccersimulator import SoccerBattle, SoccerTeam, SoccerPlayer
 from td1 import *
 
-team1=SoccerTeam("Goooo 1v1")
+###############################################################################
+#1v1
+###############################################################################
+
+team11=SoccerTeam("FML can't use my joueur_plus_proche :-(")
+team11.add_player(SoccerPlayer("t11j1",Messi()))
+
+###############################################################################
+#2v2
+###############################################################################
+
+team1=SoccerTeam("Fonceurs")
 team1.add_player(SoccerPlayer("t1j1",GoAndShoot()))
+team1.add_player(SoccerPlayer("t1j2",GoAndShoot()))
 
-team3=SoccerTeam("1v1 def")
-team3.add_player(SoccerPlayer("t3j1",DefStrat()))
+team3=SoccerTeam("Messi")
+team3.add_player(SoccerPlayer("t3j1",Messi()))
+team3.add_player(SoccerPlayer("t3j2",Messi()))
 
-team2=SoccerTeam("Dat Fonceur 2v2")
-team2.add_player(SoccerPlayer("t2j1",GoAndShoot()))
-team2.add_player(SoccerPlayer("t2j2",DefStrat()))
+team6=SoccerTeam("Mixt off")
+team6.add_player(SoccerPlayer("t6j1",Messi()))
+team6.add_player(SoccerPlayer("t6j2",GoAndShoot()))
 
+team2=SoccerTeam("Defensive")
+team2.add_player(SoccerPlayer("t2j1",DefStrat()))
+team2.add_player(SoccerPlayer("t2j2",DefStratV2()))
+
+###############################################################################
+#4v4
+###############################################################################
 
 team4=SoccerTeam("Mauro Chupame La Pija 4v4")
 team4.add_player(SoccerPlayer("t4j1", DefStrat()))
-team4.add_player(SoccerPlayer("t4j2", GoAndShoot()))
+team4.add_player(SoccerPlayer("t4j2", DefStratV2()))
 team4.add_player(SoccerPlayer("t4j3", GoAndShoot()))
-team4.add_player(SoccerPlayer("t4j4", GoAndShoot()))
+team4.add_player(SoccerPlayer("t4j4", Messi()))
 
-team5=SoccerTeam("4v4 maggle")
-team5.add_player(SoccerPlayer("t5j1", DefStrat()))
-team5.add_player(SoccerPlayer("t5j2", DefStrat()))
+team5=SoccerTeam("4v4 super attaque maggle")
+team5.add_player(SoccerPlayer("t5j1", Messi()))
+team5.add_player(SoccerPlayer("t5j2", Messi()))
 team5.add_player(SoccerPlayer("t5j3", GoAndShoot()))
 team5.add_player(SoccerPlayer("t5j4", GoAndShoot()))
 
-teams=[team1,team2,team3, team4, team5]
+teams=[team1,team2, team3, team4, team5, team6, team11]
 name="Maccabi"
