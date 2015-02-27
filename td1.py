@@ -278,6 +278,45 @@ class Contourne(SoccerStrategy):
 ###############################################################################
 #Countourne sans random (en fcontion de l'obstacle)
 ###############################################################################
+
+class ContourneV2(SoccerStrategy):
+    def __init__(self):
+        pass
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        adv = need.obstacle(state,player,teamid)
+        moi = player.position
+        advd = need.obstacleD(state,player,teamid)
+        move = state.ball.position - player.position
+        a = state.get_goal_center(need.teamAdverse(teamid))-player.position
+        if (adv!=None):
+            if(adv.y<moi.y):
+                shoot = Vector2D.create_polar(a.shoot.angle + 0,45, 1)
+            else:
+                shoot = Vector2D.create_polar(a.shoot.angle - 0,45, 1)
+                          
+        return SoccerAction(move, shoot)
+    def create_strategy(self):
+        return Contourne()
+
+
+class Test(SoccerStrategy):
+    def __init__(self):
+        self.messi = ComposeStrategy(GoToBall(), ContourneV2())
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        return self.messi.compute_strategy(state, player, teamid)
+    def copy(self):
+        return Test()
+    def create_strategy(self):
+        return Test()
+
    
 '''
 ###############################################################################
