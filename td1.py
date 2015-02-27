@@ -13,7 +13,7 @@ import need, random, math
 
 '''
 ###############################################################################
-#OUTILS
+#OUTILS (team 1 c'est les ROUGES)
 ###############################################################################
 '''
 
@@ -90,9 +90,9 @@ class JoueurFonceur(SoccerStrategy):
     def create_strategy(self):
         return JoueurFonceur()
         
-###
-#Goal
-###
+###############################################################################
+#Goal (useless)
+###############################################################################
 
 class Goal(SoccerStrategy):
     def __init__(self):
@@ -103,8 +103,8 @@ class Goal(SoccerStrategy):
         pass
     def compute_strategy(self,state,player,teamid):
             a=(state.ball.position+state.get_goal_center((teamid)))
-            a.x=a.x/2
-            a.y=a.y/2
+            a.x=a.x/2.2
+            a.y=a.y/2.2
             a=a-player.position
             shoot = Vector2D.create_polar(6,(teamid-1.5)*20)
             return SoccerAction(a,shoot) #Soit il tir a 10 soit a -10 en fonction de son équipe
@@ -113,9 +113,9 @@ class Goal(SoccerStrategy):
     def create_strategy(self):
         return Goal()   
         
-################################################
+###############################################################################
 #Stratégie defensive
-##############################################
+###############################################################################
 
 class DefStrat(SoccerStrategy):
     def __init__(self):
@@ -127,11 +127,11 @@ class DefStrat(SoccerStrategy):
     def compute_strategy(self,state,player,teamid):
         shoot = Vector2D(0,0)
         d = state.ball.position - player.position # diff entre ball et joueur
-        if d.norm > 25 :
+        if d.norm > 30 :
             if (teamAdverse(teamid)==2):
-                pos = Vector2D((1.1/5)*GAME_WIDTH,state.ball.position.y)-player.position
+                pos = Vector2D((0.2/5)*GAME_WIDTH,state.ball.position.y)-player.position
             else:
-                pos = Vector2D((4.1/5)*GAME_WIDTH,state.ball.position.y)-player.position
+                pos = Vector2D((4.8/5)*GAME_WIDTH,state.ball.position.y)-player.position
         else:
             pos= state.ball.position-player.position
             shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)
@@ -259,7 +259,7 @@ class Wait(SoccerStrategy):
         return Wait()
 
 ###############################################################################
-#Contourne l'adversaire
+#Contourne l'adversaire (Random)
 ###############################################################################
     
 class Contourne(SoccerStrategy):
@@ -275,7 +275,11 @@ class Contourne(SoccerStrategy):
             return SoccerAction(Vector2D(0,0), shoot)
     def create_strategy(self):
         return Contourne()
-'''        
+###############################################################################
+#Countourne sans random (en fcontion de l'obstacle)
+###############################################################################
+   
+'''
 ###############################################################################
 #Compositions de stratégies
 ###############################################################################
@@ -344,7 +348,7 @@ class Messi(SoccerStrategy):
 ###############################################################################
 #Defstrat en cas de besoin   ---> A BOSSER
 ###############################################################################
-'''
+
 class DefIntell(SoccerStrategy):
     def __init__(self):
         self.goball = ComposeStrategy(GoToBall(), Shoot())
@@ -357,7 +361,7 @@ class DefIntell(SoccerStrategy):
         #pos_goal = state.get_goal_center(need.teamAdverse(teamid))
         pos_ball = state.ball.position
         #pg_pb = pos_goal - pos_ball
-        if(pos_ball.x > (GAME_WIDTH/3.O):
+        if pos_ball.x > (GAME_WIDTH/2.8):
             return self.godef.compute_strategy(state, player, teamid)
         return self.goball.compute_strategy(state, player, teamid)
     def copy(self):
@@ -365,7 +369,7 @@ class DefIntell(SoccerStrategy):
     def create_strategy(self):
         return DefIntell()
 
-'''
+
 ###############################################################################
 #Fonceur qui évite les joueurs
 ###############################################################################
@@ -384,33 +388,36 @@ class Fon(SoccerStrategy):
             return self.goo.compute_strategy(state, player, teamid)
     def create_strategy(self):
         return Fon()
-'''        
        
+'''       
         
 ###############################################################################
-#Dat player
+#Dat player (myball = joueur plus proche de mon équipe .)
 ###############################################################################
-'''
+#if pplayer == player #Si c moi le plus proche de la balle
+
 class Dat(SoccerStrategy):
     def __init__(self):
         self.messi = Messi()
-        self.go = GoAndShoot ()
-        #self.messi = ComposeStrategy(GoToBall(), Contourne())
-        #self.go = ComposeStrategy(GoToBall(), Shoot())
+        self.fonce = GoAndShoot()
+        self.godef = DefStrat()
     def start_battle(self,state):
         pass
     def finish_battle(self,won):
         pass
     def compute_strategy(self,state,player,teamid):
-        my_ball,player,distance = need.joueur_plus_proche(teamid, state)
-        if my_ball == False:
-            return self.go.compute_strategy(state, player, teamid)
-        elif distance == 15:
+        joueurpp_mon_equipe,joueur_plus_proche,distance = need.joueur_plus_proche(teamid, state)
+        if joueurpp_mon_equipe == False:
+            return self.godef.compute_strategy(state, player, teamid)
+        elif joueur_plus_proche == player:
             return self.messi.compute_strategy(state, player, teamid)
-
-class Dat2(SoccerStrategy):
-    
-    def compute_strategy(self,state,player,teamid):
+        return self.fonce.compute_strategy(state,player,teamid)
 
 '''
+class Dat2(soccerStrategy):
+    def __init(self):
+        self.messi = Messi()
+        self.fonce = GoAndShoot()
+        
 
+'''

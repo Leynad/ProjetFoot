@@ -16,28 +16,6 @@ def teamAdverse(id):
         return 2
     else:
         return 1
-        
-''' def myBall(id,state):
-    pos_ball=state.ball.position
-    list1 = state.team1.players  # liste des joueurs de la team 1   
-    dmin = 1000
-    imin = -1    
-    res = [pos_ball.distance(p.position) for p in list1]
-    dmin1= min(res)
-    idx_p1 = res.index(dmin1)
-    if dmin < pos_ball.distance(p.position):
-        dmin = pos_ball.distance
-        return(dmin)
-    
-    
-            
-    list2 = state.team1.players #liste des joueurs de la team 2
-    res2 = [pos_ball.distance(p.position) for p in list2]
-    idx_p2 = res.index(dmin)
-    dmin2 = min(res2)
-    if dmin < pos_ball.distance(p.position):
-        dmin = pos_ball.distance
-        return(dmin) '''
 
 ###############################################################################
 # My ball ? player ? distance ?
@@ -59,23 +37,89 @@ def joueur_plus_proche(id, state):
         dproche=d2
     mon_equipe_est_proche = id==1 and d1<d2 or id==2 and d1>d2
     return (mon_equipe_est_proche, pproche, dproche)
-
-'''
-####
-#+
-###        
-
-def pos_ball(id, state):
-    return self.state.ball.position
-
-def pos_player(id,state):
-    return self.state.player.position
-'''
     
-'''    
+###############################################################################
+#Obstacle 
+####"##########################################################################
+
+def obstacle(state, teamid, player):
+    teamadv = teamAdverse(teamid)
+    coord = None
+    if (adv==1):
+        list_joueurs = state.team1.players
+    else:
+        list_joueurs = state.team2.players
+    for p in list_joueurs:
+        if (p.position.distance(player.position) < (GAME_WIDTH*0.2) ) :
+            coord = p.position
+            return coord
+
+###############################################################################
+#Ou est le l'obstacle ?
+###############################################################################
+
+def obstacleD(state, teamid, player, adv):
+    teamadv = teamAdverse(teamid)
+    me = player.position
+    a = False
+    if (adv!=None):
+        if (teamadv==1):
+            if(adv.x > me.x):
+                a = True
+            else:
+                a = False
+        else:
+            if(adv.x<me.x):
+                a = True
+            else:
+                a = False
+                    
+    return a   
+
+'''
+###############################################################################
+#Help
+###############################################################################        
+
+def pos_ball(state):
+    return state.ball.position
+
+def pos_player(state):
+    return state.player.position
+    
+    
+    
+
+
+###############################################################################
+#Brouillon
+###############################################################################    
+    
+def myBall(id,state):
+    pos_ball=state.ball.position
+    list1 = state.team1.players  # liste des joueurs de la team 1   
+    dmin = 1000
+    imin = -1    
+    res = [pos_ball.distance(p.position) for p in list1]
+    dmin1= min(res)
+    idx_p1 = res.index(dmin1)
+    if dmin < pos_ball.distance(p.position):
+        dmin = pos_ball.distance
+        return(dmin)
+    
+    
+            
+    list2 = state.team1.players #liste des joueurs de la team 2
+    res2 = [pos_ball.distance(p.position) for p in list2]
+    idx_p2 = res.index(dmin)
+    dmin2 = min(res2)
+    if dmin < pos_ball.distance(p.position):
+        dmin = pos_ball.distance
+        return(dmin) 
+    
+    
+    
 dt1 = min(pos_ball.distance( state.team1.players ))
     dt2 = min()
     if(pos_ball.distance(player.position)) <= (BALL_RADIUS + PLAYER_RADIUS):
-    
-'''
-    
+        '''

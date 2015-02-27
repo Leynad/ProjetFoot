@@ -9,13 +9,36 @@ from soccersimulator import PygletObserver
 from soccersimulator import SoccerBattle, SoccerTeam, SoccerPlayer
 from td1 import *
 
+'''
+###############################################################################
+#Testing (T1 ROUGE - T2 BLEU)
+###############################################################################
+
+team10=SoccerTeam("osef")
+team10.add_player(SoccerPlayer("t10j1",DefStrat()))
+#team10.add_player(SoccerPlayer("t10j2",Wait()))
+
+team20=SoccerTeam("osef")
+team20.add_player(SoccerPlayer("t20j1",Dat()))
+#team20.add_player(SoccerPlayer("t20j2",Test()))
+
+
+'''
+
+
 ###############################################################################
 #1v1
 ###############################################################################
 
-team11=SoccerTeam("FML can't use my joueur_plus_proche :-(")
-team11.add_player(SoccerPlayer("t11j1",Messi()))
+team1=SoccerTeam("Fonceur")
+team1.add_player(SoccerPlayer("t1j1",GoAndShoot()))
 
+team11=SoccerTeam("Dat")
+team11.add_player(SoccerPlayer("t11j1",Dat()))
+
+team1111=SoccerTeam("Def")
+team1111.add_player(SoccerPlayer("t111j1",DefStrat()))
+'''
 ###############################################################################
 #2v2
 ###############################################################################
@@ -44,13 +67,15 @@ team4=SoccerTeam("Mauro Chupame La Pija 4v4")
 team4.add_player(SoccerPlayer("t4j1", DefStrat()))
 team4.add_player(SoccerPlayer("t4j2", DefStratV2()))
 team4.add_player(SoccerPlayer("t4j3", GoAndShoot()))
-team4.add_player(SoccerPlayer("t4j4", Messi()))
+team4.add_player(SoccerPlayer("t4j4", GoAndShoot()))
 
 team5=SoccerTeam("4v4 super attaque maggle")
 team5.add_player(SoccerPlayer("t5j1", Messi()))
 team5.add_player(SoccerPlayer("t5j2", Messi()))
 team5.add_player(SoccerPlayer("t5j3", GoAndShoot()))
 team5.add_player(SoccerPlayer("t5j4", GoAndShoot()))
+'''
 
-teams=[team1,team2, team3, team4, team5, team6, team11]
+
+teams=[team1, team11, team111]
 name="Maccabi"
