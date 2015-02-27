@@ -36,8 +36,8 @@ team1.add_player(SoccerPlayer("t1j1",GoAndShoot()))
 team11=SoccerTeam("Dat")
 team11.add_player(SoccerPlayer("t11j1",Dat()))
 
-team1111=SoccerTeam("Def")
-team1111.add_player(SoccerPlayer("t111j1",DefStrat()))
+team111=SoccerTeam("Def")
+team111.add_player(SoccerPlayer("t111j1",DefStrat()))
 '''
 ###############################################################################
 #2v2
