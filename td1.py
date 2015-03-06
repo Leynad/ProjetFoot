@@ -6,14 +6,14 @@ Created on Mon Jan 26 18:48:14 2015
 """
 
 from soccersimulator import Vector2D, SoccerAction, SoccerStrategy, pyglet
-from soccersimulator import SoccerBattle, SoccerPlayer, SoccerTeam 
+from soccersimulator import SoccerBattle, SoccerPlayer, SoccerTeam,GAME_GOAL_HEIGHT 
 from soccersimulator import PygletObserver,ConsoleListener,LogListener
 from soccersimulator import PLAYER_RADIUS, BALL_RADIUS, GAME_HEIGHT, GAME_WIDTH
 import need, random, math
 
 '''
 ###############################################################################
-#OUTILS (team 1 c'est les ROUGES)
+#OUTILS
 ###############################################################################
 '''
 
@@ -22,6 +22,27 @@ def teamAdverse(teamid):
     if (teamid==2):
         adv=1
     return adv
+            
+'''            
+class ContourneV3(SoccerStrategy):
+    def __init__(self):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        adv = obstacle(state, teamid, player)
+        if adv != None:
+            me = player.position
+            advd = obstacleD(state, teamid, player, adv)
+            move = state.ball.position - player.position
+            a = state.get_goal_center(need.teamAdverse(teamid))-player.position
+            if adv.y<me.y:
+                shoot = Vector2D.create_polar(a.shoot.angle + 0,45, 1)
+            else:
+                shoot = Vector2D.create_polar(a.shoot.angle - 0,45, 1)
+                          
+        return SoccerAction(move, shoot)
+'''
+'''import pdb
+        pdb.set_trace()'''
 
 '''
 ###############################################################################
@@ -30,22 +51,20 @@ def teamAdverse(teamid):
 '''
 
 ###############################################################################
-#Testeur 
+#Testeurs
 ###############################################################################
-
 class Test(SoccerStrategy):
     def __init__(self):
-        self.goball = ComposeStrategy(GoToBall(), Shoot())
-
+        self.messi = Messi()
+        self.fonce = Fonceur()
     def compute_strategy(self,state,player,teamid):
-        mon_equipe_plus_proche,player,distance = need.joueur_plus_proche(teamid, state)
-        print mon_equipe_plus_proche
-        print player
-        print distance
-        if distance < GAME_WIDTH*(1.0/5.0):
-            return self.goball.compute_strategy(state, player, teamid)
-        else: 
-            return SoccerAction(Vector2D(0,0), Vector2D(0,0))
+        ennemy = need.qqn_devant_moi(state,teamid,player)
+        if ennemy == True:
+            return self.messi.compute_strategy(state, player, teamid)
+        else:
+            return self.fonce.compute_strategy(state,player,teamid)
+            
+
 
 ###############################################################################
 #RANDOM
@@ -261,7 +280,7 @@ class Wait(SoccerStrategy):
 ###############################################################################
 #Contourne l'adversaire (Random)
 ###############################################################################
-    
+
 class Contourne(SoccerStrategy):
     def __init__(self):
         pass
@@ -275,6 +294,7 @@ class Contourne(SoccerStrategy):
             return SoccerAction(Vector2D(0,0), shoot)
     def create_strategy(self):
         return Contourne()
+
 ###############################################################################
 #Countourne sans random (en fcontion de l'obstacle)
 ###############################################################################
@@ -282,42 +302,42 @@ class Contourne(SoccerStrategy):
 class ContourneV2(SoccerStrategy):
     def __init__(self):
         pass
-    def start_battle(self,state):
-        pass
-    def finish_battle(self,won):
-        pass
     def compute_strategy(self,state,player,teamid):
-        adv = need.obstacle(state,player,teamid)
-        moi = player.position
-        advd = need.obstacleD(state,player,teamid)
+        adv = need.obstacle(state, teamid, player)
+        me = player.position
+        advD = need.obstacleD(state, teamid, player, adv)
         move = state.ball.position - player.position
         a = state.get_goal_center(need.teamAdverse(teamid))-player.position
-        if (adv!=None):
-            if(adv.y<moi.y):
-                shoot = Vector2D.create_polar(a.shoot.angle + 0,45, 1)
+        shoot = Vector2D(0,0)
+        if adv:
+            if adv.y<me.y:
+                shoot = Vector2D.create_polar(a.angle + 0.45, 1)
             else:
-                shoot = Vector2D.create_polar(a.shoot.angle - 0,45, 1)
+                shoot = Vector2D.create_polar(a.angle - 0.5, 1)
+        if advD == True:
+            shoot= (state.get_goal_center(need.teamAdverse(teamid))-player.position)
                           
         return SoccerAction(move, shoot)
-    def create_strategy(self):
-        return Contourne()
 
+###############################################################################
+#Tirer vers les potos
+###############################################################################
 
-class Test(SoccerStrategy):
+class ShootPoto(SoccerStrategy):
     def __init__(self):
-        self.messi = ComposeStrategy(GoToBall(), ContourneV2())
-    def start_battle(self,state):
-        pass
-    def finish_battle(self,won):
         pass
     def compute_strategy(self,state,player,teamid):
-        return self.messi.compute_strategy(state, player, teamid)
-    def copy(self):
-        return Test()
-    def create_strategy(self):
-        return Test()
-
-   
+        shoot = Vector2D(0,0)
+        shoot = state.get_goal_center(need.teamAdverse(teamid)) - player.position
+        shoot.x = shoot.x - (GAME_GOAL_HEIGHT / 2.4)
+        shoot.y = shoot.y - (GAME_GOAL_HEIGHT / 2.4)
+        return SoccerAction(Vector2D(0,0), shoot)
+      
+class Test2(SoccerStrategy):
+    def __init__(self):
+        self.go = ComposeStrategy(GoToBall(),ShootPoto())
+    def compute_strategy(self,state,player,teamid):
+        return self.go.compute_strategy(state,player,teamid)
 '''
 ###############################################################################
 #Compositions de stratégies
@@ -350,27 +370,32 @@ class ComposeStrategy(SoccerStrategy):
 #GoToBall & Shoot 
 ###############################################################################
 
-class GoAndShoot(SoccerStrategy):
+class Fonceur(SoccerStrategy):
     def __init__(self):
         self.goball = ComposeStrategy(GoToBall(), Shoot())
-        #self.tirball = ComposeStrategy(GoToBall(), Shoot())
     def start_battle(self,state):
         pass
     def finish_battle(self,won):
         pass
     def compute_strategy(self,state,player,teamid):
-        
         return self.goball.compute_strategy(state, player, teamid)
-    def copy(self):
-        return GoAndShoot()
-    def create_strategy(self):
-        return GoAndShoot()
-
+        
 ###############################################################################
-#Fonceur qui évite ses adversaires
+#Fonceur de poteaux 
 ###############################################################################
 
-class Messi(SoccerStrategy):
+class FonceurPoto(SoccerStrategy):
+    def __init__(self):
+        self.go = ComposeStrategy(GoToBall(),ShootPoto())
+    def compute_strategy(self,state,player,teamid):
+        return self.go.compute_strategy(state,player,teamid)
+
+
+###############################################################################
+#Fonceur qui évite ses adversaires tout le temps
+###############################################################################
+
+class Evite(SoccerStrategy):
     def __init__(self):
         self.messi = ComposeStrategy(GoToBall(), Contourne())
     def start_battle(self,state):
@@ -379,10 +404,21 @@ class Messi(SoccerStrategy):
         pass
     def compute_strategy(self,state,player,teamid):
         return self.messi.compute_strategy(state, player, teamid)
-    def copy(self):
-        return Messi()
-    def create_strategy(self):
-        return Messi()
+
+###############################################################################
+#Messi dribble SI ET SEULEMENT SI y a qqn devant lui !
+###############################################################################
+
+class Messi(SoccerStrategy):
+    def __init__(self):
+        self.messi = Evite()
+        self.fonce = Fonceur()
+    def compute_strategy(self,state,player,teamid):
+        ennemy = need.qqn_devant_moi(state,teamid,player)
+        if ennemy == True:
+            return self.messi.compute_strategy(state, player, teamid)
+        else:
+            return self.fonce.compute_strategy(state,player,teamid)
         
 ###############################################################################
 #Defstrat en cas de besoin   ---> A BOSSER
@@ -438,7 +474,7 @@ class Fon(SoccerStrategy):
 class Dat(SoccerStrategy):
     def __init__(self):
         self.messi = Messi()
-        self.fonce = GoAndShoot()
+        self.fonce = Fonceur()
         self.godef = DefStrat()
     def start_battle(self,state):
         pass
@@ -446,17 +482,66 @@ class Dat(SoccerStrategy):
         pass
     def compute_strategy(self,state,player,teamid):
         joueurpp_mon_equipe,joueur_plus_proche,distance = need.joueur_plus_proche(teamid, state)
+        mon_equipe_a_la_ball = need.mon_equipe_a_la_ball(teamid,state)
         if joueurpp_mon_equipe == False:
             return self.godef.compute_strategy(state, player, teamid)
-        elif joueur_plus_proche == player:
-            return self.messi.compute_strategy(state, player, teamid)
-        return self.fonce.compute_strategy(state,player,teamid)
+        elif joueur_plus_proche == player and mon_equipe_a_la_ball:
+            return self.fonce.compute_strategy(state, player, teamid)
+        elif mon_equipe_a_la_ball:
+            return self.fonce.compute_strategy(state,player,teamid)
+        return self.godef.compute_strategy(state,player,teamid)
+      
+###############################################################################
+#DefStrat pour 2v2 et 4v4 qui contourne en contre attaque
+###############################################################################
 
-'''
-class Dat2(soccerStrategy):
-    def __init(self):
-        self.messi = Messi()
-        self.fonce = GoAndShoot()
+class DefAttaque(SoccerStrategy):
+    def __init__(self):
+        self.defe = DefStrat()
+        self.go = Messi
+    def compute_strategy(self,state,player,teamid):
+        ennemy = need.qqn_devant_moi(state,teamid,player)
+        mon_equipe_a_la_ball = need.mon_equipe_a_la_ball(teamid,state)
+        if mon_equipe_a_la_ball == True and ennemy == True:
+            return self.go.compute_strategy(state,player,teamid)
+        return self.defe.compute_strategy(state,player,teamid)
         
+###############################################################################
+# Messi tir vers les poteaux
+###############################################################################
+'''
+class MessiP(SoccerStrategy):
+    def __init__(self):
+        self.messi = Messi()
+        self.poto = FonceurPoto()
+    def compute_strategy(self,state,player,teamid):
+        ennemy = need.qqn_devant_moi(state,teamid,player)
+        mon_equipe_a_la_ball = need.mon_equipe_a_la_ball(teamid,state)
+        if ennemy == True and mon_equipe_a_la_ball == True:
+            return self.messi.compute_strategy(state,player,teamid)
+        return self.compute_strategy(state,player,teamid)'''
+        
+'''
+###############################################################################
+# IA
+###############################################################################
 
+
+###############################################################################
+#SimpleSelector
+###############################################################################
+
+class SimpleSelector(SoccerStrategy):
+    def __init__(self,list_strat):
+        self.name="Selecteur simple"
+        self.list_strat=list_strat
+    def selector(self,state,player,teamid):
+        if (...):
+            return 0
+        if (...):
+            return 1
+        return -1
+        def compute_strategy(self,state,player,teamid):
+            return self.list_strat[self.selector(state,player,teamid)]\.compute_strategy(...)
+            
 '''
