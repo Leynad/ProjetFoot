@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Feb  9 11:42:52 2015
-
 """
 
 from soccersimulator import pyglet
@@ -14,28 +13,36 @@ from td1 import *
 #Testing (T1 ROUGE - T2 BLEU)
 ###############################################################################
 
-team10=SoccerTeam("osef")
-team10.add_player(SoccerPlayer("t10j1",Dat()))
-#team10.add_player(SoccerPlayer("t10j2",Wait()))
+team1=SoccerTeam("Messi")
+team1.add_player(SoccerPlayer("Messi",Fonceur()))
+team1.add_player(SoccerPlayer("t1j2",Messi()))
+team1.add_player(SoccerPlayer("t1j3",DefStrat()))
+team1.add_player(SoccerPlayer("t1j4",Messi()))
 
-team20=SoccerTeam("osef")
-team20.add_player(SoccerPlayer("t20j1",DefStrat()))
-#team20.add_player(SoccerPlayer("t20j2",Test()))
+team2=SoccerTeam("Fonceur")
+team2.add_player(SoccerPlayer("Fonceur",DefStrat()))
+team2.add_player(SoccerPlayer("t2j2",DefStrat()))
+team2.add_player(SoccerPlayer("t2j3",DefStrat()))
+team2.add_player(SoccerPlayer("t2j4",DefStrat()))
+
+
+
+teams=[team1, team2]
+name="Maccabi"
+
 '''
-
-
 
 ###############################################################################
 #1v1
 ###############################################################################
-team1=SoccerTeam("Def")
+team1=SoccerTeam("Goal")
 team1.add_player(SoccerPlayer("t1j1",DefStrat()))
 
 team11=SoccerTeam("Fonceur")
-team11.add_player(SoccerPlayer("t11j1",GoAndShoot()))
+team11.add_player(SoccerPlayer("t11j1",Fonceur()))
 
-team111=SoccerTeam("Dat")
-team111.add_player(SoccerPlayer("t111j1",Dat()))
+team111=SoccerTeam("Messi")
+team111.add_player(SoccerPlayer("t111j1",Messi()))
 
 
 
@@ -44,31 +51,39 @@ team111.add_player(SoccerPlayer("t111j1",Dat()))
 ###############################################################################
 
 team2=SoccerTeam("Fonceurs")
-team2.add_player(SoccerPlayer("t2j1",GoAndShoot()))
-team2.add_player(SoccerPlayer("t2j2",GoAndShoot()))
+team2.add_player(SoccerPlayer("t2j1",Fonceur()))
+team2.add_player(SoccerPlayer("t2j2",Fonceur()))
 
 
-team22=SoccerTeam("Dat Def")
+team22=SoccerTeam("Def")
 team22.add_player(SoccerPlayer("t22j1",DefStrat()))
-team22.add_player(SoccerPlayer("t22j2",Dat()))
+team22.add_player(SoccerPlayer("t22j2",DefStrat()))
+
+team222=SoccerTeam("Def")
+team222.add_player(SoccerPlayer("t222j1",DefStrat()))
+team222.add_player(SoccerPlayer("t222j2",Messi()))
+
+team2222=SoccerTeam("Double Messi")
+team2222.add_player(SoccerPlayer("t2222j1",Messi()))
+team2222.add_player(SoccerPlayer("t2222j2",Messi()))
 
 ###############################################################################
 #4v4
 ###############################################################################
 
-team4=SoccerTeam("Mauro Chupame La Pija 4v4")
+team4=SoccerTeam("Def de retard")
 team4.add_player(SoccerPlayer("t4j1", DefStrat()))
 team4.add_player(SoccerPlayer("t4j2", DefStrat()))
-team4.add_player(SoccerPlayer("t4j3", Dat()))
-team4.add_player(SoccerPlayer("t4j4", GoAndShoot()))
+team4.add_player(SoccerPlayer("t4j3", DefStrat()))
+team4.add_player(SoccerPlayer("t4j4", Fonceur()))
 
-team5=SoccerTeam("4v4 super attaque maggle")
-team5.add_player(SoccerPlayer("t5j1", Dat()))
-team5.add_player(SoccerPlayer("t5j2", Dat()))
-team5.add_player(SoccerPlayer("t5j3", GoAndShoot()))
-team5.add_player(SoccerPlayer("t5j4", GoAndShoot()))
-''
+team5=SoccerTeam("attaque de retard")
+team5.add_player(SoccerPlayer("t5j1", DefStrat()))
+team5.add_player(SoccerPlayer("t5j2", Fonceur()))
+team5.add_player(SoccerPlayer("t5j3", Fonceur()))
+team5.add_player(SoccerPlayer("t5j4", Fonceur()))
 
 
-teams=[team1, team11, team111, team2, team22, team4, team5]
+
+teams=[team1, team11, team111, team2, team22, team222, team2222, team4, team5]
 name="Maccabi"

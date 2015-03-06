@@ -4,8 +4,8 @@ Created on Mon Feb  9 15:20:23 2015
 
 for p in state.team1/2.player
 """
+from td1 import *
 
-import math
 
 ###############################################################################
 #ID de la TEAM
@@ -18,7 +18,7 @@ def teamAdverse(id):
         return 1
 
 ###############################################################################
-# My ball ? player ? distance ?
+#My ball ? player ? distance ?
 ###############################################################################
 
 def joueur_plus_proche(id, state):
@@ -39,21 +39,30 @@ def joueur_plus_proche(id, state):
     return (mon_equipe_est_proche, pproche, dproche)
     
 ###############################################################################
+#Est-ce que j'ai la balle ?
+###############################################################################
+
+def mon_equipe_a_la_ball(id,state):
+    mon_equipe_est_proche, pproche, dproche = joueur_plus_proche(id, state)
+    return mon_equipe_est_proche and dproche < (BALL_RADIUS+PLAYER_RADIUS)/2
+                                   
+ 
+###############################################################################
 #Obstacle 
 ####"##########################################################################
 
-def obstacle(state, teamid, player):
+def obstacle(state, teamid, player): 
     teamadv = teamAdverse(teamid)
     coord = None
-    if (adv==1):
-        list_joueurs = state.team1.players
-    else:
+    if (teamadv==1):
         list_joueurs = state.team2.players
+    else:
+        list_joueurs = state.team1.players
     for p in list_joueurs:
         if (p.position.distance(player.position) < (GAME_WIDTH*0.2) ) :
             coord = p.position
             return coord
-
+            
 ###############################################################################
 #Ou est le l'obstacle ?
 ###############################################################################
@@ -72,13 +81,30 @@ def obstacleD(state, teamid, player, adv):
             if(adv.x<me.x):
                 a = True
             else:
-                a = False
-                    
-    return a   
+                a = False                
+    return a 
 
+###############################################################################
+#Obstacle V2 
+###############################################################################
+
+def qqn_devant_moi(state,teamid,player):
+    if teamid == 1:
+        list_adv = state.team2.players
+    else:
+        list_adv = state.team1.players
+    progression = state.get_goal_center(teamAdverse(teamid))-state.get_goal_center(teamid)
+    for p in list_adv:
+        d=p.position - player.position
+        if d.dot(progression)>0:
+        #if abs(d.angle(progession)>math.pi/4:
+            if d.norm<(BALL_RADIUS+PLAYER_RADIUS)*35:
+                return True
+    return False
+    
 '''
 ###############################################################################
-#Help
+#Pour la lisibilité du code
 ###############################################################################        
 
 def pos_ball(state):
@@ -122,4 +148,4 @@ def myBall(id,state):
 dt1 = min(pos_ball.distance( state.team1.players ))
     dt2 = min()
     if(pos_ball.distance(player.position)) <= (BALL_RADIUS + PLAYER_RADIUS):
-        '''
+'''
