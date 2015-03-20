@@ -44,7 +44,17 @@ def joueur_plus_proche(id, state):
 
 def mon_equipe_a_la_ball(id,state):
     mon_equipe_est_proche, pproche, dproche = joueur_plus_proche(id, state)
-    return mon_equipe_est_proche and dproche < (BALL_RADIUS+PLAYER_RADIUS)/2
+    return mon_equipe_est_proche and dproche < (BALL_RADIUS+PLAYER_RADIUS)
+    
+###############################################################################
+#Si le joueur à la balle
+###############################################################################
+
+def jai_la_balle(state,player):
+    if (PLAYER_RADIUS+BALL_RADIUS)>=(state.ball.position.distance(player.position)):
+        return True
+    else:
+        return False
                                    
  
 ###############################################################################
