@@ -163,7 +163,9 @@ class DefStrat(SoccerStrategy):
         return DefStrat()
         
 
-       
+###############################################################################
+#Defenseur (intercepte TOUT sauf les fonceurs en ligne droite)
+###############################################################################       
       
 class DefStratBis(SoccerStrategy):
     def __init__(self):
@@ -195,7 +197,7 @@ class DefStratBis(SoccerStrategy):
         return DefStratBis()
         
 ###############################################################################
-#
+#Defenseur (faiblaisse sur les poteaux)
 ###############################################################################
 
 class Defenseur(SoccerStrategy):
