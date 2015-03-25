@@ -5,6 +5,11 @@ Created on Mon Feb  9 15:20:23 2015
 for p in state.team1/2.player
 """
 from td1 import *
+from soccersimulator import Vector2D, SoccerAction, SoccerStrategy, pyglet
+from soccersimulator import SoccerBattle, SoccerPlayer, SoccerTeam,GAME_GOAL_HEIGHT 
+from soccersimulator import PygletObserver,ConsoleListener,LogListener
+from soccersimulator import PLAYER_RADIUS, BALL_RADIUS, GAME_HEIGHT, GAME_WIDTH
+import need, random, math
 
 
 ###############################################################################
@@ -16,6 +21,12 @@ def teamAdverse(id):
         return 2
     else:
         return 1
+
+def TeamMy(id):
+    if(id ==1):
+        return 1
+    else:
+        return 2
 
 ###############################################################################
 #My ball ? player ? distance ?
@@ -112,7 +123,7 @@ def qqn_devant_moi(state,teamid,player):
                 return True
     return False
     
-'''
+
 ###############################################################################
 #Pour la lisibilité du code
 ###############################################################################        
@@ -120,13 +131,16 @@ def qqn_devant_moi(state,teamid,player):
 def pos_ball(state):
     return state.ball.position
 
-def pos_player(state):
-    return state.player.position
+def pos_player(state,player):
+    return player.position
+    
+def pos_goal(state,id):
+    return state.get_goal_center(teamAdverse(id))
     
     
     
 
-
+'''
 ###############################################################################
 #Brouillon
 ###############################################################################    
