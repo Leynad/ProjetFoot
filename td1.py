@@ -167,7 +167,7 @@ class DefStrat(SoccerStrategy):
       
 class DefStratBis(SoccerStrategy):
     def __init__(self):
-        self.name="Def"
+        self.name="DefStratBis"
     def start_battle(self,state):
         pass
     def finish_battle(self,won):
@@ -184,13 +184,45 @@ class DefStratBis(SoccerStrategy):
         else:
             pos= state.ball.position-player.position
             shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)
-        #if need.jai_la_balle(state,player):
-        shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)
+        if need.jai_la_balle(state,player):
+            
+            shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)
+        print(shoot)
         return SoccerAction(pos,shoot)
     def copy(self):
         return DefStratBis()
     def create_strategy(self):
         return DefStratBis()
+        
+###############################################################################
+#
+###############################################################################
+
+class Defenseur(SoccerStrategy):
+    def __init__(self):
+        self.name="Defenseur"
+    def compute_strategy(self,state,player,teamid):
+       
+        g = state.get_goal_center(need.TeamMy(teamid))
+        b = state.ball.position
+        p = player.position
+        gp = g-p
+        bp = state.ball.position - player.position
+        dist = b + g
+        d = Vector2D((dist.x)/2.00,(dist.y)/2.00)   
+        dirt = d - p
+        dirt.product(10)
+        if need.jai_la_balle(state,player) : 
+            if b.y < GAME_HEIGHT/2.0:
+                shoot2=Vector2D.create_polar(gp.angle + 2.505, 15)
+                return SoccerAction(dirt,shoot2)
+            else :
+                shoot = Vector2D.create_polar(gp.angle - 2.505, 15)
+                return SoccerAction (dirt,shoot)
+        return SoccerAction(dirt,Vector2D())
+    def create_strategy(self):
+        return Defenseur() 
+            
 ###############################################################################
 #DefStratV2
 ###############################################################################
@@ -362,11 +394,13 @@ class ShootPoto(SoccerStrategy):
     def __init__(self):
         pass
     def compute_strategy(self,state,player,teamid):
-        shoot = Vector2D(0,0)
-        shoot = state.get_goal_center(need.teamAdverse(teamid)) - player.position
-        shoot.x = shoot.x - (GAME_GOAL_HEIGHT / 2.4)
-        shoot.y = shoot.y - (GAME_GOAL_HEIGHT / 2.4)
-        return SoccerAction(Vector2D(0,0), shoot)
+            shoot = Vector2D(0,0)
+            
+            if need.jai_la_balle(state,player):
+                shoot = state.get_goal_center(need.teamAdverse(teamid)) - player.position
+                shoot.x = shoot.x - (GAME_GOAL_HEIGHT / 2.4)
+                shoot.y = shoot.y - (GAME_GOAL_HEIGHT / 2.4)
+            return SoccerAction(Vector2D(0,0), shoot)
       
 class Test2(SoccerStrategy):
     def __init__(self):
@@ -407,6 +441,7 @@ class ComposeStrategy(SoccerStrategy):
 
 class Fonceur(SoccerStrategy):
     def __init__(self):
+        self.name = Fonceur
         self.goball = ComposeStrategy(GoToBall(), Shoot())
     def start_battle(self,state):
         pass
@@ -446,6 +481,7 @@ class Evite(SoccerStrategy):
 
 class Messi(SoccerStrategy):
     def __init__(self):
+        self.name = Messi
         self.messi = Evite()
         self.fonce = Fonceur()
     def compute_strategy(self,state,player,teamid):
