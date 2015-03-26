@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
 """
 Created on Mon Jan 26 19:12:49 2015
-
-@author: 3301097
 """
 from soccersimulator import pyglet
 from soccersimulator import PygletObserver

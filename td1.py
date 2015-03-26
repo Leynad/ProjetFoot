@@ -189,7 +189,6 @@ class DefStratBis(SoccerStrategy):
         if need.jai_la_balle(state,player):
             
             shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)
-        print(shoot)
         return SoccerAction(pos,shoot)
     def copy(self):
         return DefStratBis()
@@ -197,7 +196,7 @@ class DefStratBis(SoccerStrategy):
         return DefStratBis()
         
 ###############################################################################
-#Defenseur (faiblaisse sur les poteaux)
+#Defenseur (faiblesse sur les poteaux)
 ###############################################################################
 
 class Defenseur(SoccerStrategy):
@@ -443,7 +442,7 @@ class ComposeStrategy(SoccerStrategy):
 
 class Fonceur(SoccerStrategy):
     def __init__(self):
-        self.name = Fonceur
+        self.name = "Fonceur"
         self.goball = ComposeStrategy(GoToBall(), Shoot())
     def start_battle(self,state):
         pass
@@ -565,6 +564,18 @@ class Dat(SoccerStrategy):
         elif mon_equipe_a_la_ball:
             return self.fonce.compute_strategy(state,player,teamid)
         return self.godef.compute_strategy(state,player,teamid)
+
+class Datp(SoccerStrategy):
+    def __init__(self):
+        self.defe = DefStratBis()
+        self.go = Fonceur()
+    def compute_strategy(self,state,player,teamid):
+        joueurpp_mon_equipe,joueur_plus_proche,distance = need.joueur_plus_proche(teamid, state)
+        if joueurpp_mon_equipe == False:
+            return self.defe.compute_strategy(state,player,teamid)
+        elif joueurpp_mon_equipe == True:
+            return self.go.compute_strategy(state,player,teamid)
+        return self.defe.compute_strategy(state,player,teamid)
       
 ###############################################################################
 #DefStrat pour 2v2 et 4v4 qui contourne en contre attaque
@@ -572,7 +583,7 @@ class Dat(SoccerStrategy):
 
 class DefAttaque(SoccerStrategy):
     def __init__(self):
-        self.defe = DefStrat()
+        self.defe = DefStratBis()
         self.go = Messi
     def compute_strategy(self,state,player,teamid):
         ennemy = need.qqn_devant_moi(state,teamid,player)
@@ -585,6 +596,7 @@ class DefAttaque(SoccerStrategy):
 # Messi tir vers les poteaux
 ###############################################################################
 '''
+
 class MessiP(SoccerStrategy):
     def __init__(self):
         self.messi = Messi()
