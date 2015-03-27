@@ -549,7 +549,7 @@ class Dat(SoccerStrategy):
     def __init__(self):
         self.messi = Messi()
         self.fonce = Fonceur()
-        self.godef = DefStrat()
+        self.godef = DefStratBis()
     def start_battle(self,state):
         pass
     def finish_battle(self,won):
@@ -565,7 +565,7 @@ class Dat(SoccerStrategy):
             return self.fonce.compute_strategy(state,player,teamid)
         return self.godef.compute_strategy(state,player,teamid)
 
-class Datp(SoccerStrategy):
+class GoalPower(SoccerStrategy):
     def __init__(self):
         self.defe = DefStratBis()
         self.go = Fonceur()
@@ -576,7 +576,18 @@ class Datp(SoccerStrategy):
         elif joueurpp_mon_equipe == True:
             return self.go.compute_strategy(state,player,teamid)
         return self.defe.compute_strategy(state,player,teamid)
-      
+    
+class DefPower(SoccerStrategy):
+    def __init__(self):
+        self.defe = Defenseur()
+        self.go = Fonceur()
+    def compute_strategy(self,state,player,teamid):
+        joueurpp_mon_equipe,joueur_plus_proche,distance = need.joueur_plus_proche(teamid, state)
+        if joueurpp_mon_equipe == False:
+            return self.defe.compute_strategy(state,player,teamid)
+        elif joueurpp_mon_equipe == True:
+            return self.go.compute_strategy(state,player,teamid)
+        return self.defe.compute_strategy(state,player,teamid)
 ###############################################################################
 #DefStrat pour 2v2 et 4v4 qui contourne en contre attaque
 ###############################################################################
