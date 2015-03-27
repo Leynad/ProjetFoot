@@ -482,7 +482,7 @@ class Evite(SoccerStrategy):
 
 class Messi(SoccerStrategy):
     def __init__(self):
-        self.name = Messi
+        self.name = "Messi"
         self.messi = Evite()
         self.fonce = Fonceur()
     def compute_strategy(self,state,player,teamid):
@@ -588,6 +588,20 @@ class DefPower(SoccerStrategy):
         elif joueurpp_mon_equipe == True:
             return self.go.compute_strategy(state,player,teamid)
         return self.defe.compute_strategy(state,player,teamid)
+        
+        
+class GoalPowerPoto(SoccerStrategy):
+    def __init__(self):
+        self.defe = DefStratBis()
+        self.go = FonceurPoto()
+    def compute_strategy(self,state,player,teamid):
+        joueurpp_mon_equipe,joueur_plus_proche,distance = need.joueur_plus_proche(teamid, state)
+        if joueurpp_mon_equipe == False:
+            return self.defe.compute_strategy(state,player,teamid)
+        elif joueurpp_mon_equipe == True:
+            return self.go.compute_strategy(state,player,teamid)
+        return self.defe.compute_strategy(state,player,teamid)
+
 ###############################################################################
 #DefStrat pour 2v2 et 4v4 qui contourne en contre attaque
 ###############################################################################
