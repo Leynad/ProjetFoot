@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 import os
 from soccersimulator import TreeIA, TreeStrategy
-from td1 import *
+import td1
 
 def gen_feature_simple(state,teamid,playerid):
     return np.array([f(state,teamid,playerid) for f in list_fun_features])
