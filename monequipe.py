@@ -127,5 +127,5 @@ team12.add_player(SoccerPlayer("t2j4",FonceurPoto()))
 
 
 
-teams=[team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12,team_tree]
+teams=[team_tree,team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12]
 name="Maccabi"
