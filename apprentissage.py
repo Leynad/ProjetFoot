@@ -29,8 +29,9 @@ list_fun_features=[distance_ball_mon_but]
 def gen_feature_simple(state,teamid,playerid):
     return np.array([f(state,teamid,playerid) for f in list_fun_features])
     
-if __name__=="__main__":
+def app():
     treeia=TreeIA(gen_feature_simple)
     treeia.learn(fn="best_goal")
     treeia.save("best_goal.pkl")
     treeia.to_dot("best_goal.dot")
+app()
