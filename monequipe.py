@@ -13,8 +13,8 @@ from apprentissage import *
 ###############################################################################
 
 team1=SoccerTeam("Messi")
-team1.add_player(SoccerPlayer("Goal",Fonceur()))
-team1.add_player(SoccerPlayer("t1j2",Wait()))
+#team1.add_player(SoccerPlayer("Goal",Fonceur()))
+#team1.add_player(SoccerPlayer("t1j2",Wait()))
 #team1.add_player(SoccerPlayer("t1j3",DefStrat()))
 #team1.add_player(SoccerPlayer("t1j4",Messi()))
 
@@ -32,7 +32,7 @@ fn=os.path.join(os.path.dirname(os.path.realpath(__file__)),"best_goal.pkl")
 treeia.load(fn)
 TreeST=TreeStrategy("tree1",treeia)
 
-team_tree.add_player(SoccerPlayer("Tree 1",Wait()))
+team_tree.add_player(SoccerPlayer("Tree 1",TreeST))
 team_tree.add_player(SoccerPlayer("Tree 2",TreeST))
 
 
@@ -41,6 +41,22 @@ name="Maccabi"
 '''
 
 
+
+
+###############################################################################
+#Equipe IA
+###############################################################################
+
+team_tree = SoccerTeam("Team Tree")
+
+treeia=TreeIA(gen_feature_simple,dict({"Fonceur":Fonceur(),"DefStratBis":DefStratBis()}))
+### Apprentissage
+fn=os.path.join(os.path.dirname(os.path.realpath(__file__)),"best_goal.pkl")
+treeia.load(fn)
+TreeST=TreeStrategy("tree1",treeia)
+
+team_tree.add_player(SoccerPlayer("Tree 1",TreeST))
+team_tree.add_player(SoccerPlayer("Tree 2",TreeST))
 
 ###############################################################################
 #1v1
@@ -111,5 +127,6 @@ team12.add_player(SoccerPlayer("t2j4",FonceurPoto()))
 
 
 
-teams=[team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12]
+teams=[team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12,team_tree]
 name="Maccabi"
+'''

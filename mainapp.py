@@ -6,15 +6,11 @@ from soccersimulator import PygletObserver
 from soccersimulator import SoccerBattle
 from soccersimulator import SoccerPlayer, SoccerTeam, InteractStrategy, TreeStrategy
 from td1 import *
-
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 import pickle
 import os
-
 from soccersimulator import SoccerStrategy
-
-
 from monequipe import teams
 
 list_key_player1=['a','e']
