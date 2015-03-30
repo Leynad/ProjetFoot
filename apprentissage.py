@@ -34,4 +34,4 @@ def app():
     treeia.learn(fn="best_goal")
     treeia.save("best_goal.pkl")
     treeia.to_dot("best_goal.dot")
-app()
+#app()
