@@ -664,7 +664,6 @@ class SimpleSelector(SoccerStrategy):
 
 #Exercice 1
 
-
 class DefStratBis(SoccerStrategy):
     def __init__(self):
         self.name="DefStratBis"
@@ -693,4 +692,109 @@ class DefStratBis(SoccerStrategy):
     def create_strategy(self):
         return DefStratBis()
         
+#Exercice 2
+'''Eviter la boue quand on a la balle et qu'elle est pas dans la boue
+Se déplacer très lentement sur la glace => MAIN IDEAS'''
+
+#Shoot doucement in the ice
+
+
+class ShootIce(SoccerStrategy):
+    def __init__(self):
+        self.name="shootice"
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        jai_la_balle = need.jai_la_balle(state,player)
+        if jai_la_balle:
+            shoot = state.get_goal_center(need.teamAdverse(teamid)) - player.position
+            #print shoot.angle,shoot.create_polar(shoot.angle, 0.4)
+            return SoccerAction(Vector2D(0,0), shoot.create_polar(shoot.angle, 0.5))#1.8
+        return SoccerAction(Vector2D(0,0),Vector2D(0,0))
+    def create_strategy(self):
+        return ShootIce()
+
+#Fonceur pour la glace
+class FonceurGlace(SoccerStrategy):
+    def __init__(self):
+        self.name="FonceurGlace"
+        self.godef = DefStratBis()
+        self.fonce = Fonceur()
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        shoot = Vector2D()
+        pos = state.ball.position-player.position
+        pos_ball = state.ball.position
+        #danger = state.danger_zones
+        for z in state.danger_zones:
+            if pos_ball > z.bottom_left and pos_ball < z.bottom_left + z.diagonal and z.type == "ice":
+                return godef.compute_strategy(state,player,teamid)
+            #if (z.bottom_left.position - player.position)< 30:
+        return fonce.compute_strategy(state,player,teamid)
+    def create_strategy(self):
+        return FonceurGlace()
+        
+class FonceurIce(SoccerStrategy):
+    def __init__(self):
+        self.name = "FonceurIce"
+        self.ice = ComposeStrategy(GoToBall(), ShootIce())
+        self.notice = ComposeStrategy(GoToBall(), Shoot())
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        for z in state.danger_zones:
+            if z.type == "ice":
+                return self.ice.compute_strategy(state, player, teamid)
+            return notice.compute_strategy(state,player,teamid)
+    
+
+#Le joueur agit comme un fonceur sauf qu'il contourne les zones "mud"
+class NoMud(SoccerStrategy):
+    def __init__(self):
+        pass
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        shoot = state.get_goal_center(need.teamAdverse(teamid)) - player.position
+        shoot.norm = shoot.norm * 0.5
+        for z in state.danger_zones:
+            if need.jai_la_balle(state,player)==True:
+                if z.type == "mud" and z.contain:
+                    shoot.x = shoot.x - GAME_HEIGHT * 0.5
+                return SoccerAction(Vector2D(0,0), shoot)
+            else:
+                return SoccerAction(Vector2D(0,0), shoot)
+        else:
+            return SoccerAction(Vector2D(0,0),Vector2D(0,0))
+    def create_strategy(self):
+        return NoMud()
+    
+class NoMudV2(SoccerStrategy):
+    def __init__(self):
+        pass
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+         shoot = state.get_goal_center(need.teamAdverse(teamid)) - player.position
+         for z in state.danger_zones:
+             if need.jai_la_balle(state,player)==True:
+                 if z.type == "mud" and z.contain:
+                     shoot.x = shoot.x - GAME_HEIGHT * 0.5
+                     
+                     
+             
+        
+
+
 
