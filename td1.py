@@ -32,7 +32,7 @@ class ContourneV3(SoccerStrategy):
         if adv != None:
             me = player.position
             advd = obstacleD(state, teamid, player, adv)
-            move = state.ball.position - player.position
+            move = state.ball.positionball.position - player.position
             a = state.get_goal_center(need.teamAdverse(teamid))-player.position
             if adv.y<me.y:
                 shoot = Vector2D.create_polar(a.shoot.angle + 0,45, 1)
@@ -99,7 +99,7 @@ class JoueurFonceur(SoccerStrategy):
     def finish_battle(self,won):
         pass
     def compute_strategy(self,state,player,teamid):
-        acceleration = state.ball.position - player.position
+        acceleration = need.pos_ball(state) - need.pos_player(player)#state.ball.position - player.position
         shoot = Vector2D(0,0)
         if (PLAYER_RADIUS+BALL_RADIUS)>=(state.ball.position.distance(player.position)):
             shoot= (state.get_goal_center(need.teamAdverse(teamid))-player.position)
@@ -318,7 +318,7 @@ class Shoot(SoccerStrategy):
         if jai_la_balle:
             shoot = state.get_goal_center(need.teamAdverse(teamid)) - player.position
             #print shoot.angle,shoot.create_polar(shoot.angle, 0.4)
-            return SoccerAction(Vector2D(0,0), shoot.create_polar(shoot.angle, 1.8))
+            return SoccerAction(Vector2D(0,0), shoot.create_polar(shoot.angle, 1.8))#1.8
         return SoccerAction(Vector2D(0,0),Vector2D(0,0))
     def copy(self):
         return Shoot()
@@ -357,7 +357,7 @@ class Contourne(SoccerStrategy):
     def compute_strategy(self,state,player,teamid):
             move = state.get_goal_center(need.teamAdverse(teamid))- (player.position)
             if need.jai_la_balle(state,player):
-                shoot = Vector2D.create_polar(move.angle + random.random()*2-1,1)
+                shoot = Vector2D.create_polar(move.angle + random.random()*2-1,1.2)
                 return SoccerAction(Vector2D(0,0), shoot)
             return SoccerAction(Vector2D(0,0), Vector2D())
     def create_strategy(self):
@@ -656,3 +656,41 @@ class SimpleSelector(SoccerStrategy):
             return self.list_strat[self.selector(state,player,teamid)]\.compute_strategy(...)
             
 '''
+
+
+###############################################################################
+#TME_SOLO
+###############################################################################
+
+#Exercice 1
+
+
+class DefStratBis(SoccerStrategy):
+    def __init__(self):
+        self.name="DefStratBis"
+    def start_battle(self,state):
+        pass
+    def finish_battle(self,won):
+        pass
+    def compute_strategy(self,state,player,teamid):
+        shoot = Vector2D(0,0)
+        d = state.ball.position - player.position # diff entre ball et joueur
+        
+        if need.jai_la_balle(state,player)==False:
+            if (teamAdverse(teamid)==2):
+                pos = Vector2D((0.2/5)*GAME_WIDTH,state.ball.position.y)-player.position
+            else:
+                pos = Vector2D((4.8/5)*GAME_WIDTH,state.ball.position.y)-player.position
+        else:
+            pos= state.ball.position-player.position
+            shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)
+        if need.jai_la_balle(state,player):
+            
+            shoot= (state.get_goal_center(teamAdverse(teamid))-player.position)
+        return SoccerAction(pos,shoot)
+    def copy(self):
+        return DefStratBis()
+    def create_strategy(self):
+        return DefStratBis()
+        
+
