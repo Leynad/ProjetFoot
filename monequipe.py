@@ -38,7 +38,7 @@ team_tree.add_player(SoccerPlayer("Tree 2",TreeST))
 
 teams=[team1, team_tree]
 name="Maccabi"
-'''
+
 
 
 
@@ -57,7 +57,7 @@ TreeST=TreeStrategy("tree1",treeia)
 
 team_tree.add_player(SoccerPlayer("Tree 1",TreeST))
 team_tree.add_player(SoccerPlayer("Tree 2",TreeST))
-
+'''
 ###############################################################################
 #1v1
 ###############################################################################
@@ -127,5 +127,5 @@ team12.add_player(SoccerPlayer("t2j4",FonceurPoto()))
 
 
 
-teams=[team_tree,team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12]
+teams=[team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12]
 name="Maccabi"
